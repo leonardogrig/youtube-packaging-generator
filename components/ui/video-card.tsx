@@ -17,7 +17,7 @@ interface VideoCardProps {
 export function VideoCard({ video, onClick }: VideoCardProps) {
   return (
     <Card 
-      className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
+      className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200"
       onClick={() => onClick(video)}
     >
       <CardContent className="p-4">

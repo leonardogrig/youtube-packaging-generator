@@ -50,13 +50,12 @@ export function CommunityPosts({ content }: CommunityPostsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-lg">📢</span>
             Community Post Suggestions
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {content.communityPosts.map((post, index) => (
-            <div key={index} className="p-4 bg-muted rounded-lg border-l-4 border-primary">
+            <div key={index} className="p-4 bg-muted rounded-lg">
               <div className="flex items-start justify-between mb-3">
                 <span className="text-sm font-medium text-primary">Post {index + 1}</span>
                 <CopyButton text={post} id={`community-post-${index}`} />

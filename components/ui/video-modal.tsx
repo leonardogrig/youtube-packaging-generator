@@ -140,10 +140,10 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent onClose={onClose} className="max-w-6xl flex flex-col max-h-[90vh]">
+      <DialogContent onClose={onClose} className="max-w-6xl flex flex-col h-[90vh] max-h-[90vh]">
         <DialogHeader className="flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <DialogTitle>{currentVideo.filename}</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            {currentVideo.filename}
             <Button
               variant="outline"
               size="sm"
@@ -152,13 +152,12 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
             >
               <Trash2 className="h-4 w-4" />
             </Button>
-          </div>
+          </DialogTitle>
         </DialogHeader>
         
         <div className="flex-1 overflow-hidden">
-          <Tabs defaultValue="video" className="h-full flex flex-col">
+          <Tabs defaultValue="transcription" className="h-full flex flex-col">
             <TabsList className="grid w-full grid-cols-3 mx-6 flex-shrink-0">
-              <TabsTrigger value="video">Video</TabsTrigger>
               <TabsTrigger value="transcription">Transcription</TabsTrigger>
               <TabsTrigger 
                 value="generated" 
@@ -167,6 +166,7 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
               >
                 Generated Content
               </TabsTrigger>
+              <TabsTrigger value="video">Video</TabsTrigger>
             </TabsList>
             
             <div className="flex-1 overflow-auto">
@@ -202,9 +202,9 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
                 </div>
               </TabsContent>
               
-              <TabsContent value="generated" className="px-6 pb-6 mt-4">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+              <TabsContent value="generated" className="px-6 pb-6 mt-4 flex-1 flex flex-col">
+                <div className="flex flex-col space-y-4 flex-1">
+                  <div className="flex items-center justify-between flex-shrink-0">
                     <h3 className="text-lg font-semibold">Generate Content</h3>
                     <Button 
                       onClick={handleGenerate}
@@ -214,7 +214,7 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
                     </Button>
                   </div>
                   
-                  <ScrollArea className="h-[50vh]">
+                  <ScrollArea className="flex-1">
                     <div className="space-y-6">
                       {generatedContent && (
                         <GenerationResults content={generatedContent} />

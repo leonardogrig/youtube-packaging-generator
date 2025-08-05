@@ -109,7 +109,6 @@ export function GenerationResults({ content }: GenerationResultsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-lg">📝</span>
             Suggested Titles
           </CardTitle>
         </CardHeader>
@@ -132,7 +131,6 @@ export function GenerationResults({ content }: GenerationResultsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-lg">📄</span>
             Suggested Descriptions
           </CardTitle>
         </CardHeader>
@@ -153,7 +151,6 @@ export function GenerationResults({ content }: GenerationResultsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-lg">⏰</span>
             Key Timestamps
           </CardTitle>
         </CardHeader>
@@ -175,7 +172,6 @@ export function GenerationResults({ content }: GenerationResultsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <span className="text-lg">🖼️</span>
             Thumbnail Text Ideas
           </CardTitle>
         </CardHeader>
