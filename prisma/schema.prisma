@@ -13,3 +13,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Video {
+  id          String    @id @default(cuid())
+  filename    String
+  title       String?
+  fileUrl     String
+  transcription String?
+  generatedContent String? @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("videos")
+}
