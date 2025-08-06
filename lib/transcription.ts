@@ -34,11 +34,11 @@ export async function transcribeVideo(videoId: string, videoPath: string) {
         .audioFrequency(16000)
         .on('end', () => resolve())
         .on('error', (err) => reject(err))
-        .save(tempAudioPath)
+        .save(tempAudioPath!)
     })
 
     // Read the extracted audio file
-    const audioBuffer = await require('fs/promises').readFile(tempAudioPath)
+    const audioBuffer = await require('fs/promises').readFile(tempAudioPath!)
     
     // Create a File object from buffer for Groq
     const audioFile = new File([audioBuffer], "audio.wav", { type: "audio/wav" })

@@ -13,6 +13,8 @@ interface Video {
   transcription?: string | null
   generatedContent?: string | null
   generatedImageUrl?: string | null
+  source?: string
+  youtubeVideoId?: string
 }
 
 export default function Home() {
@@ -66,6 +68,37 @@ export default function Home() {
     }
   }
 
+  const handleYouTubeUrl = async (youtubeUrl: string) => {
+    setIsUploading(true)
+    
+    try {
+      const response = await fetch('/api/youtube-transcript', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ youtubeUrl }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        await fetchVideos()
+        
+        // Open the newly created video
+        if (data.video) {
+          setSelectedVideo(data.video)
+        }
+      } else {
+        const errorData = await response.json()
+        console.error('YouTube transcript extraction failed:', errorData.message)
+      }
+    } catch (error) {
+      console.error('YouTube transcript extraction failed:', error)
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
   const handleVideoUpdate = (updatedVideo: Video) => {
     setVideos(prev => prev.map(v => v.id === updatedVideo.id ? updatedVideo : v))
   }
@@ -84,7 +117,7 @@ export default function Home() {
       </header>
 
       <div className="mb-8">
-        <VideoUpload onUpload={handleUpload} isUploading={isUploading} />
+        <VideoUpload onUpload={handleUpload} onYouTubeUrl={handleYouTubeUrl} isUploading={isUploading} />
       </div>
 
       {videos.length > 0 && (

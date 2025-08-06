@@ -18,6 +18,8 @@ interface VideoModalProps {
     transcription?: string | null
     generatedContent?: string | null
     generatedImageUrl?: string | null
+    source?: string
+    youtubeVideoId?: string
   }
   isOpen: boolean
   onClose: () => void
@@ -180,17 +182,28 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
             <div className="flex-1 overflow-auto">
               <TabsContent value="video" className="px-6 pb-6 mt-4">
                 <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                  <video 
-                    src={currentVideo.fileUrl}
-                    controls
-                    className="w-full h-full"
-                  />
+                  {currentVideo.source === 'youtube' && currentVideo.youtubeVideoId ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${currentVideo.youtubeVideoId}`}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
+                  ) : (
+                    <video 
+                      src={currentVideo.fileUrl}
+                      controls
+                      className="w-full h-full"
+                    />
+                  )}
                 </div>
               </TabsContent>
               
               <TabsContent value="transcription" className="px-6 pb-6 mt-4">
                 <div className="space-y-4">
-                  {!currentVideo.transcription && (
+                  {!currentVideo.transcription && currentVideo.source !== 'youtube' && (
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-semibold">Transcribe Video</h3>
                       <Button 
@@ -204,7 +217,10 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
                   
                   <ScrollArea className="h-[50vh] w-full border rounded-md p-4">
                     <pre className="text-sm whitespace-pre-wrap">
-                      {currentVideo.transcription || (isTranscribing ? 'Transcribing video...' : 'Click "Start Transcription" to transcribe this video.')}
+                      {currentVideo.transcription || 
+                       (isTranscribing ? 'Transcribing video...' : 
+                        currentVideo.source === 'youtube' ? 'Transcript extracted from YouTube.' :
+                        'Click "Start Transcription" to transcribe this video.')}
                     </pre>
                   </ScrollArea>
                 </div>

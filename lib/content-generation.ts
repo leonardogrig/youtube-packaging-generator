@@ -34,6 +34,7 @@ a) Upon receiving a video transcript, identify the core topics and key takeaways
 b) Create a very short summary (not describing the entire video) that includes all relevant keywords for SEO.
 c) Use the same speaking style as from the transcription.
 d) Talk in first person "I evaluate..."
+e) Keep it short and concise, do not overdo it.
 
 2) Timestamp Creation:
 a) Review the video transcript and identify the most significant moments or topics.
@@ -84,15 +85,20 @@ g) Identify the main topic of the video from the transcription and place excelle
 4) Community Post Creation:
 a) Create engaging YouTube community posts based on the video content.
 b) Posts should tease the video content, ask questions, or share key insights.
-c) Keep posts concise but engaging (100-200 words max).
-d) Do not include any emojis. Use text-only formatting and call-to-action elements.
+c) Keep posts concise but engaging (100 words max).
+d) Use Emojis to structure the post, but do not overdo it.
 e) Create posts that encourage community interaction and drive traffic to the video.
+d) Use line breaks to structure the post.
+
+The description should not be describing the entire video, the description should be a very short summary, but should have all of the relevant words for SEO. Try to make the description using the same style of speaking as from the transcription.
 
 5) Image Idea Generation:
 a) Based on the video content, suggest a creative visual concept for an icon/image.
 b) The idea should capture the main theme or a striking visual metaphor from the video.
 c) Keep it simple and descriptive (2-4 words).
 d) Examples: "visual studio code on fire", "robot coding laptop", "brain with circuits", "rocket launching code".
+
+IMPORTANT: this character "—" or "-" should never be used. Never use em dash nor hyphens.
 
 Generate exactly 3 suggestions for each category and 1 image idea.`
         },
