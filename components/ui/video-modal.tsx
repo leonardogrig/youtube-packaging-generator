@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs"
 import { ScrollArea } from "./scroll-area"
 import { GenerationResults } from "./generation-results"
 import { CommunityPosts } from "./community-posts"
+import { ImageGeneration } from "./image-generation"
 import { Trash2 } from "lucide-react"
 
 interface VideoModalProps {
@@ -16,6 +17,7 @@ interface VideoModalProps {
     fileUrl: string
     transcription?: string | null
     generatedContent?: string | null
+    generatedImageUrl?: string | null
   }
   isOpen: boolean
   onClose: () => void
@@ -117,6 +119,12 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
     }
   }
 
+
+  const handleImageGenerated = (imageUrl: string) => {
+    const updatedVideo = { ...currentVideo, generatedImageUrl: imageUrl }
+    setCurrentVideo(updatedVideo)
+    onVideoUpdate(updatedVideo)
+  }
 
   const handleDelete = async () => {
     if (confirm('Are you sure you want to delete this video?')) {
@@ -222,6 +230,15 @@ export function VideoModal({ video, isOpen, onClose, onDelete, onVideoUpdate }: 
                       
                       {generatedContent && generatedContent.communityPosts && (
                         <CommunityPosts content={{ communityPosts: generatedContent.communityPosts }} />
+                      )}
+                      
+                      {generatedContent && (
+                        <ImageGeneration 
+                          content={generatedContent}
+                          videoId={currentVideo.id}
+                          existingImageUrl={currentVideo.generatedImageUrl}
+                          onImageGenerated={handleImageGenerated}
+                        />
                       )}
                       
                       {!generatedContent && !isGenerating && (

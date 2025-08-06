@@ -4,6 +4,7 @@ interface GeneratedContent {
   timestamps: string[]
   thumbnailTexts: string[]
   communityPosts: string[]
+  imageIdea: string
 }
 
 export async function generateContent(transcription: string): Promise<GeneratedContent> {
@@ -87,7 +88,13 @@ c) Keep posts concise but engaging (100-200 words max).
 d) Do not include any emojis. Use text-only formatting and call-to-action elements.
 e) Create posts that encourage community interaction and drive traffic to the video.
 
-Generate exactly 3 suggestions for each category.`
+5) Image Idea Generation:
+a) Based on the video content, suggest a creative visual concept for an icon/image.
+b) The idea should capture the main theme or a striking visual metaphor from the video.
+c) Keep it simple and descriptive (2-4 words).
+d) Examples: "visual studio code on fire", "robot coding laptop", "brain with circuits", "rocket launching code".
+
+Generate exactly 3 suggestions for each category and 1 image idea.`
         },
         {
           role: 'user',
@@ -136,9 +143,13 @@ Generate exactly 3 suggestions for each category.`
                 minItems: 3,
                 maxItems: 3,
                 description: 'Three engaging YouTube community posts (100-150 words each) that focusses on engagement, it identifies a topic from the video transcript and engages with the community from it... this text should use the same tone and style as the video transcript, it should identify the topic and understand if it is a "how to" or a new launch/feature and direct the topic of the post in that direction. Use emojis to structure the post, but do not overdo it.'
+              },
+              imageIdea: {
+                type: 'string',
+                description: 'A simple 2-4 word visual concept for an icon/image that captures the main theme or striking visual metaphor from the video'
               }
             },
-            required: ['titles', 'descriptions', 'timestamps', 'thumbnailTexts', 'communityPosts'],
+            required: ['titles', 'descriptions', 'timestamps', 'thumbnailTexts', 'communityPosts', 'imageIdea'],
             additionalProperties: false
           }
         }

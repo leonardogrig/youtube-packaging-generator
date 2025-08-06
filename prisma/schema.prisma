@@ -21,6 +21,7 @@ model Video {
   fileUrl     String
   transcription String?
   generatedContent String? @db.Text
+  generatedImageUrl String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 

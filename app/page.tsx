@@ -12,6 +12,7 @@ interface Video {
   createdAt: Date
   transcription?: string | null
   generatedContent?: string | null
+  generatedImageUrl?: string | null
 }
 
 export default function Home() {
