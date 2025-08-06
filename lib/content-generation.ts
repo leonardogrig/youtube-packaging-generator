@@ -15,7 +15,8 @@ export async function generateContent(transcription: string): Promise<GeneratedC
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'openrouter/horizon-beta',
+      // model: 'openrouter/horizon-beta',
+      model: 'google/gemini-2.5-pro',
       messages: [
         {
           role: 'system',
@@ -76,6 +77,8 @@ Example 5:
 Title: This Cursor Setup Changes Everything (Claude Code)
 Thumbnail Text: NEW METHOD
 
+Obs.: Do not simply copy the title and thumbnail text from the examples, but use them as inspiration and create your own.
+
 e) Words like: Workflow, Insane, Agents, Build, New, FREE tend to raise awareness for BIG, SAFE, NEW and EASY aspects. The "NEW" creates FOMO, the "INSANE" is BIG, "Workflow" seems "Easy". Don't limit yourself to only these words, but understand these examples.
 
 f) Not every video has the capacity to be a BIG video, so really understand the context of the transcription to ensure that it is a video worth grabbing people's attention in a major way… as we want to make sure that only actually major topics grab the audience attention since there are daily videos.
@@ -98,7 +101,7 @@ b) The idea should capture the main theme or a striking visual metaphor from the
 c) Keep it simple and descriptive (2-4 words).
 d) Examples: "visual studio code on fire", "robot coding laptop", "brain with circuits", "rocket launching code".
 
-IMPORTANT: this character "—" or "-" should never be used. Never use em dash nor hyphens.
+IMPORTANT: this character "—" or "-" should never be used. Never use em dash nor hyphens. All the texts should use my own tone and style of speaking (from the transcription).
 
 Generate exactly 3 suggestions for each category and 1 image idea.`
         },
@@ -118,9 +121,9 @@ Generate exactly 3 suggestions for each category and 1 image idea.`
               titles: {
                 type: 'array',
                 items: { type: 'string' },
-                minItems: 3,
-                maxItems: 3,
-                description: 'Three catchy YouTube titles under 60 characters'
+                minItems: 5,
+                maxItems: 5,
+                description: 'Five catchy YouTube titles under 60 characters'
               },
               descriptions: {
                 type: 'array',
@@ -134,14 +137,14 @@ Generate exactly 3 suggestions for each category and 1 image idea.`
                 items: { type: 'string' },
                 minItems: 3,
                 maxItems: 3,
-                description: 'Three complete timestamp blocks, each containing multiple timestamps in format "00:00 - Topic\\n02:15 - Next Topic\\n04:30 - Another Topic" etc. Each block should be a single copyable text with 3-5 timestamp entries depending on video length'
+                description: 'Three complete timestamp blocks, each containing multiple timestamps in format "00:00 - Topic\\n02:15 - Next Topic\\n04:30 - Another Topic" etc. Each block should be a single copyable text with 3-10 timestamp entries depending on video length. (Maximum 5 timestamps for a 10 minute video)'
               },
               thumbnailTexts: {
                 type: 'array',
                 items: { type: 'string' },
-                minItems: 3,
-                maxItems: 3,
-                description: 'Three thumbnail text phrases that are BIG, Safe, New (FOMO), and Easy - corresponding to the title suggestions (1-3 words each)'
+                minItems: 5,
+                maxItems: 5,
+                description: 'Five thumbnail text phrases that are BIG, Safe, New (FOMO), and Easy - corresponding to the title suggestions (1-4 words each)'
               },
               communityPosts: {
                 type: 'array',
