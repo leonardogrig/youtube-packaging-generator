@@ -42,23 +42,76 @@ export default function Home() {
     setIsUploading(true)
     
     try {
-      const formData = new FormData()
-      formData.append('file', file)
+      // Check file size - use chunked upload for files > 4MB
+      const MAX_SINGLE_UPLOAD_SIZE = 4 * 1024 * 1024 // 4MB
+      
+      if (file.size <= MAX_SINGLE_UPLOAD_SIZE) {
+        // Small file - use regular upload
+        const formData = new FormData()
+        formData.append('file', file)
 
-      const uploadResponse = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
 
-      if (uploadResponse.ok) {
-        const uploadData = await uploadResponse.json()
-        await fetchVideos()
+        if (uploadResponse.ok) {
+          const uploadData = await uploadResponse.json()
+          await fetchVideos()
+          
+          // Find and open the newly uploaded video
+          const updatedVideos = await fetch('/api/videos').then(r => r.json())
+          const newVideo = updatedVideos.videos.find((v: Video) => v.id === uploadData.videoId)
+          if (newVideo) {
+            setSelectedVideo(newVideo)
+          }
+        } else {
+          const error = await uploadResponse.json()
+          console.error('Upload failed:', error.message)
+        }
+      } else {
+        // Large file - use chunked upload
+        console.log(`File size: ${(file.size / (1024 * 1024)).toFixed(2)}MB - using chunked upload`)
         
-        // Find and open the newly uploaded video
-        const updatedVideos = await fetch('/api/videos').then(r => r.json())
-        const newVideo = updatedVideos.videos.find((v: Video) => v.id === uploadData.videoId)
-        if (newVideo) {
-          setSelectedVideo(newVideo)
+        const CHUNK_SIZE = 2 * 1024 * 1024 // 2MB chunks
+        const totalChunks = Math.ceil(file.size / CHUNK_SIZE)
+        const uploadId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        
+        for (let i = 0; i < totalChunks; i++) {
+          const start = i * CHUNK_SIZE
+          const end = Math.min(start + CHUNK_SIZE, file.size)
+          const chunk = file.slice(start, end)
+          
+          const formData = new FormData()
+          formData.append('chunk', chunk)
+          formData.append('chunkIndex', i.toString())
+          formData.append('totalChunks', totalChunks.toString())
+          formData.append('filename', file.name)
+          formData.append('uploadId', uploadId)
+          
+          const response = await fetch('/api/upload-chunk', {
+            method: 'POST',
+            body: formData,
+          })
+          
+          if (!response.ok) {
+            throw new Error(`Chunk ${i + 1}/${totalChunks} upload failed`)
+          }
+          
+          const result = await response.json()
+          console.log(`Uploaded chunk ${i + 1}/${totalChunks}`)
+          
+          if (result.complete) {
+            // Upload complete
+            await fetchVideos()
+            
+            // Find and open the newly uploaded video
+            const updatedVideos = await fetch('/api/videos').then(r => r.json())
+            const newVideo = updatedVideos.videos.find((v: Video) => v.id === result.videoId)
+            if (newVideo) {
+              setSelectedVideo(newVideo)
+            }
+          }
         }
       }
     } catch (error) {

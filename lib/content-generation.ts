@@ -167,11 +167,30 @@ Generate exactly 3 suggestions for each category and 1 image idea.`
   })
 
   if (!response.ok) {
-    throw new Error('Failed to generate content')
+    const errorText = await response.text()
+    console.error('OpenRouter API Error:', {
+      status: response.status,
+      statusText: response.statusText,
+      error: errorText
+    })
+    throw new Error(`Failed to generate content: ${response.status} ${response.statusText} - ${errorText}`)
   }
 
   const data = await response.json()
-  const content = JSON.parse(data.choices[0].message.content)
   
-  return content
+  if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
+    console.error('Unexpected response structure:', data)
+    throw new Error('Invalid response structure from OpenRouter API')
+  }
+  
+  try {
+    const content = JSON.parse(data.choices[0].message.content)
+    return content
+  } catch (parseError) {
+    console.error('Failed to parse JSON response:', {
+      content: data.choices[0].message.content,
+      error: parseError
+    })
+    throw new Error('Failed to parse generated content as JSON')
+  }
 }
